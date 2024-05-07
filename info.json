@@ -1,0 +1,18 @@
+{
+	"name": "ForbiddenLetter",
+	"version": 1,
+	"coreFiles": [
+		"info.json",
+		"browser-source.html",
+		"script.js",
+		"styles.css"
+	],
+	"commands": [
+		{
+			"name": "Voice.SayWord",
+			"accessMask": 255,
+			"function": "onVoiceSayWord"
+		}
+	],
+	"lastUpdated": 1658880355818
+}

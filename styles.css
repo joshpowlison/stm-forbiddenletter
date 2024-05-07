@@ -1,0 +1,30 @@
+body
+{
+	margin:0;
+	padding:0;
+	font-family:'BentonSans';
+}
+
+#container{
+	background-color: rgba(0, 0, 0, 0.62);
+	color:white;
+	
+	padding:.5em;
+}
+
+#forbidden-letter-info
+{
+	font-size:2em;
+}
+
+#counts
+{
+	display:flex;
+	justify-content:space-between;
+}
+
+p
+{
+	padding:0;
+	margin:0;
+}
