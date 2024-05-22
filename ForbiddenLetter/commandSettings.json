@@ -1,0 +1,9 @@
+{
+	"commands": [
+		{
+			"name": "Voice.SayWord",
+			"accessMask": 255,
+			"function": "onVoiceSayWord"
+		}
+	]
+}

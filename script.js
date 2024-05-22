@@ -1,8 +1,14 @@
 const moduleFunctions = {
-	"onVoiceSayWord": onVoiceSayWord
+	"onVoiceSayWord": onVoiceSayWord,
+	"changeVoiceMessageOnFail": changeVoiceMessageOnFail,
 };
 
-Module.LoadModule(moduleFunctions);
+module.LoadModule(moduleFunctions);
+
+// TODO: save in settings
+let settings = {
+	onFailPhrase: 'You said the Forbidden Letter \"[0]\"! You must die!'
+};
 
 var forbiddenLetterOptions = [
 	'a',
@@ -63,31 +69,20 @@ async function updateForbiddenLetter()
 	// TODO: use custom events in the Core setup for these instead.
 	// That would make this WAY more flexible.
 	ttsSetup('The forbidden letter is now \"' + forbiddenLetter + '\"! Do not say it or you must die!');
-	Module.F('Console.Log', 'The Forbidden Letter is now "' + forbiddenLetter + '".');
+	module.F('Console.Log', 'The Forbidden Letter is now "' + forbiddenLetter + '".');
 
 	nextStartTime = Date.now() + COOLDOWN_BETWEEN_LISTENS;
 }
 
-async function onVoiceSayWord(name, event)
-{
-	// Ignore if we haven't started yet
-	if(Date.now() < nextStartTime)
-		return;
-	
-	var isMatch = forbiddenLetterRegex.test(event);
-	if(isMatch)
-	{
-		await onFail(event);
-	}
-}
-
 async function onFail(word)
 {
+	let phrase = settings.onFailPhrase.replace('[0]', forbiddenLetter);
+	ttsSetup(phrase);
+
 	// TODO: use custom events in the Core setup for these instead.
 	// That would make this WAY more flexible.
-	ttsSetup('You said the Forbidden Letter \"' + forbiddenLetter + '\"! You must die!');
-	Module.F('Video.Play', 'explosion');
-	Module.F('Console.Log', 'Streamer said "' + word + '" which had the Forbidden Letter "' + forbiddenLetter + '".');
+	module.F('Video.Play', 'explosion');
+	module.F('Console.Log', 'Streamer said "' + word + '" which had the Forbidden Letter "' + forbiddenLetter + '".');
 
 	failCount ++;
 	EL_FAIL_COUNT.textContent = failCount;
@@ -95,12 +90,30 @@ async function onFail(word)
 	updateForbiddenLetter();
 }
 
+async function changeVoiceMessageOnFail(name, event)
+{
+	settings.onFailPhrase = event;
+}
+
+async function onVoiceSayWord(name, event)
+{
+	// Ignore if we haven't started yet
+	if(Date.now() < nextStartTime)
+		return;
+
+	var isMatch = forbiddenLetterRegex.test(event);
+	if(isMatch)
+	{
+		await onFail(event);
+	}
+}
+
 function ttsSetup(text)
 {
 	var settings = structuredClone(voiceSettings);
 	settings.text = text;
 	
-	Module.F('TTS.Say', settings);
+	module.F('TTS.Say', settings);
 }
 
 async function onAnimationFrame()
