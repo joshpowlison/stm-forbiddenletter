@@ -1,4 +1,8 @@
 {
+	"guid": "01E41B9C-F413-85F4-26E7-BC4CC82F78AF",
 	"name": "ForbiddenLetter",
-	"version": 2
+	"type": 0,
+	"isPublic": 0,
+	"version": 2,
+	"lastUpdateDate": "2024-05-29 17:31:43"
 }

@@ -3,7 +3,7 @@ const moduleFunctions = {
 	"changeVoiceMessageOnFail": changeVoiceMessageOnFail,
 };
 
-module.LoadModule(moduleFunctions);
+module.addActions(moduleFunctions);
 
 // TODO: save in settings
 let settings = {
@@ -90,12 +90,12 @@ async function onFail(word)
 	updateForbiddenLetter();
 }
 
-async function changeVoiceMessageOnFail(name, event)
+async function changeVoiceMessageOnFail(event)
 {
 	settings.onFailPhrase = event;
 }
 
-async function onVoiceSayWord(name, event)
+async function onVoiceSayWord(event)
 {
 	// Ignore if we haven't started yet
 	if(Date.now() < nextStartTime)
